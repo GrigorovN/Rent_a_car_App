@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -17,9 +18,13 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Instant dateIn;
+    private Long stays;
 
-    private Instant dateOut;
+    private LocalDate dateIn;
+
+    private LocalDate dateOut;
+
+    private Double totalPrice;
 
     @ManyToOne()
     @JoinColumn(name = "user_id")
