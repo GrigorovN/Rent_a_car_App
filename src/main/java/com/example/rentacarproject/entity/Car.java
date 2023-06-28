@@ -1,9 +1,12 @@
 package com.example.rentacarproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+
+import java.util.Set;
 
 
 @Setter
@@ -21,10 +24,14 @@ public class Car {
     private String brand;
     @NotBlank
     private String model;
-    @NotBlank
+
     private Double pricePerDay;
-    @NotBlank
+
     private Integer seats;
+
+    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY)
+    @JsonBackReference
+    private Set<Reservation> reservations;
 
 
 }

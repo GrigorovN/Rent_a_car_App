@@ -5,8 +5,6 @@ import com.example.rentacarproject.dto.UserResponse;
 import com.example.rentacarproject.entity.User;
 import org.springframework.stereotype.Component;
 
-import java.time.Instant;
-import java.util.Date;
 
 @Component
 public class UserConverter {

@@ -3,7 +3,7 @@ package com.example.rentacarproject.service;
 import com.example.rentacarproject.dto.UserRequest;
 import com.example.rentacarproject.dto.UserResponse;
 
-import java.util.List;
+
 
 public interface UserService {
 
