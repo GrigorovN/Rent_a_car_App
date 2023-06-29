@@ -28,8 +28,8 @@ public class ReservationConverter {
                 .dateIn(request.getDateIn())
                 .dateOut(request.getDateOut())
                 .stays(diffDays)
-                .totalPrice(diffDays * getCar(request.getCarId()).getPricePerDay())
                 .build();
+        reservation.setTotalPrice(reservation.getStays() * getCar(request.getCarId()).getPricePerDay());
         return reservation;
     }
 

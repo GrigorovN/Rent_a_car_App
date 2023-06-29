@@ -25,13 +25,11 @@ public class User {
     @Column(length = 30)
     @NotBlank
     private String lastName;
-
     @Column(unique = true)
     @NotBlank
     private String email;
     @NotBlank
     private String password;
-
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonBackReference
     private List<Reservation> reservations;

@@ -13,7 +13,6 @@ public class CarRequest {
     private String brand;
     @NotBlank
     private String model;
-
     private Double pricePerDay;
     private Integer seats;
 }
