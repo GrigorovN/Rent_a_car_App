@@ -19,5 +19,5 @@ public class ReservationResponse {
 
     private Double totalPrice;
     private Car car;
-    private User user;
+    private UserResponse userResponse;
 }

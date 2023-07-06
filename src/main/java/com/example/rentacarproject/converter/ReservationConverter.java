@@ -2,6 +2,7 @@ package com.example.rentacarproject.converter;
 
 import com.example.rentacarproject.dto.ReservationRequest;
 import com.example.rentacarproject.dto.ReservationResponse;
+import com.example.rentacarproject.dto.UserResponse;
 import com.example.rentacarproject.entity.Car;
 import com.example.rentacarproject.entity.Reservation;
 import com.example.rentacarproject.entity.User;
@@ -19,6 +20,9 @@ public class ReservationConverter {
     @Autowired
     CarRepository carRepository;
 
+    @Autowired
+    UserConverter userConverter;
+
     public Reservation toReservation(ReservationRequest request) {
         Duration diff = Duration.between(request.getDateIn().atStartOfDay(), request.getDateOut().atStartOfDay() );
         long diffDays = diff.toDays();
@@ -34,8 +38,9 @@ public class ReservationConverter {
     }
 
     public ReservationResponse toReservationResponse(Reservation reservation) {
+        UserResponse userResponse = userConverter.toResponse(reservation.getUser());
         return ReservationResponse.builder()
-                .user(reservation.getUser())
+                .userResponse(userResponse)
                 .car(reservation.getCar())
                 .stays(reservation.getStays())
                 .dateIn(reservation.getDateIn())
