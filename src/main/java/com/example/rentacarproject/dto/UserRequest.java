@@ -2,16 +2,14 @@ package com.example.rentacarproject.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
+@Builder
 public class UserRequest {
 
     @NotBlank
@@ -27,6 +25,6 @@ public class UserRequest {
     private String email;
 
     @NotNull
-    @Length(min = 8, message = "Password should contains at least 6 characters")
+    @Length(min = 8, message = "Password should contains at least 8 characters")
     private String password;
 }

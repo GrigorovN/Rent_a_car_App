@@ -28,6 +28,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse saveUser(UserRequest request) {
 
+        if (existUserByEmail(request.getEmail())){
+            throw new ApiRequestException(String.format("User with email: %s already exists",request.getEmail()));
+        }
+
         User user = userConverter.toUser(request);
         User savedUser = userRepository.save(user);
 
@@ -112,6 +116,10 @@ public class UserServiceImpl implements UserService {
         if (Objects.nonNull(request.getEmail()) && !request.getEmail().isBlank()) {
             user.setEmail(request.getEmail());
         }
+    }
+
+    private boolean existUserByEmail(String email) {
+        return userRepository.findAll().stream().anyMatch(user -> user.getEmail().equals(email));
     }
 
 }

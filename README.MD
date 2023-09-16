@@ -1,36 +1,40 @@
-Разработете платформа за наем на кoли.
-Entity’s : Users, Cars, Reservation.
-User-a трябва да може да си прави резервация на определена кола за определен период от време.
+Develop a car rental platform with the following entities: Users, Cars, and Reservations.
 
-Трябва да има опция за:
--    регистрация на user.
--    update,
--    delete,
--    вземане по ID
--    вземане по email
--    ъпдейт парола
+User Entity:
 
-Car трябва да може да се:
--   запазване,
--   взема по id,
--   update
--   delete-ва.
+-   Users should be able to register.
+-   Users should be able to update their information.
+-   Users should be able to delete their accounts.
+-   Users should be retrievable by their ID.
+-   Users should be retrievable by their email.
+-   Users should be able to update their passwords.
 
-Трябва да съдържа следната информация: марка, модел, брой седалки, цена за наем на ден.
 
-Резервацията представлява запис за резервация на кола от user-a. Съдържа информация за user-a, колата, начална и крайна дата на резервацията.
-Цена на резервацията се калкулира въз основа на това колко дни е резервацията и цената на резервацията на колата на ден.
-Дните трябва да се сметнат като разлика в датите.
+Car Entity:
 
-Трябва да има възможност за :
--	 създаване на резервация,
--	 вземане на резервация по id,
--	 вземане на резервации за определен user,
--	 вземане на резервации за определена кола,
--	 вземане на резервация за определен период(тук ще трябва да ползвате @Query, дали native или не вие решавате).
--	 изтриване на резервация по id.
--  смяна на колата в резервацията
--  примяна на датите на резервацията
+-   Cars should be able to be added to the platform.
+-   Cars should be retrievable by their ID.
+-   Cars should be updatable.
+-   Cars should be deletable.
 
-Ползвайте dto-та, валидирайте requestBody-тата ползвайте конвертори. Всичко да е подредено по пакети.
-Няма нужда от интегриране на Spring Security.
+
+-   Each car should have the following information:
+
+-   Make (Brand)
+-   Model
+-   Number of Seats
+-   Rental Price per Day
+
+Reservation Entity:
+
+-   A reservation represents a booking made by a user for a specific car for a specific period.
+-   Reservations should be creatable.
+-   Reservations should be retrievable by their ID.
+-   Reservations for a specific user should be retrievable.
+-   Reservations for a specific car should be retrievable.
+-   Reservations for a specific period should be retrievable (you may use @Query).
+-   Reservations should be deletable by their ID.
+-   Users should be able to change the car in their reservation.
+-   Users should be able to change the dates of their reservation.
+-   The price of a reservation should be calculated based on the number of days of the reservation and the daily rental price of the car.
+-   The number of days should be calculated as the difference between the start and end dates.
