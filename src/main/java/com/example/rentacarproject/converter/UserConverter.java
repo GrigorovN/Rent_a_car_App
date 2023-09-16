@@ -19,8 +19,8 @@ public class UserConverter {
 
     public UserResponse toResponse(User savedUser){
         return new UserResponse(
-                savedUser.getEmail(),
                 savedUser.getFirstName(),
-                savedUser.getLastName());
+                savedUser.getLastName(),
+                savedUser.getEmail());
     }
 }

@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(path ="api/v2/car")
 public class CarController {
@@ -25,6 +27,12 @@ public class CarController {
     public ResponseEntity<CarResponse> getCar(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.FOUND)
                 .body(carService.getCar(id));
+    }
+
+    @GetMapping(path = "/search/{brand}")
+    public ResponseEntity<List<CarResponse>> getCarByBrand(@PathVariable String brand){
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .body(carService.findCarsByBrand(brand));
     }
 
     @DeleteMapping(path = "/{id}")

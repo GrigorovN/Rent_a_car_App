@@ -1,6 +1,7 @@
 package com.example.rentacarproject.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,8 +21,12 @@ public class UserRequest {
     @NotBlank
     @Length(min = 2 ,message = "Last Name should contains at least 2 characters")
     private String lastName;
+
+    @NotNull
     @Email(message = "Enter valid email")
     private String email;
-    @Length(min = 6, message = "Password should contains at least 6 characters")
+
+    @NotNull
+    @Length(min = 8, message = "Password should contains at least 6 characters")
     private String password;
 }

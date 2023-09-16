@@ -4,9 +4,13 @@ import com.example.rentacarproject.converter.UserConverter;
 import com.example.rentacarproject.dto.UserRequest;
 import com.example.rentacarproject.dto.UserResponse;
 import com.example.rentacarproject.entity.User;
+import com.example.rentacarproject.exception.ApiRequestException;
+import com.example.rentacarproject.exception.NotFoundException;
 import com.example.rentacarproject.repository.UserRepository;
 import com.example.rentacarproject.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
+
 import java.util.Objects;
 
 
@@ -23,60 +27,91 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponse saveUser(UserRequest request) {
+
         User user = userConverter.toUser(request);
         User savedUser = userRepository.save(user);
+
         return userConverter.toResponse(savedUser);
     }
 
     @Override
     public UserResponse getUser(Long id) {
+
         User user = userRepository.findById(id).orElseThrow(
-                ()-> new RuntimeException("User not found"));
+                () -> new NotFoundException(String.format("User with id = %d not found", id)));
+
         return userConverter.toResponse(user);
     }
 
     @Override
     public UserResponse getUserByEmail(String email) {
+
         User user = userRepository.findByEmail(email).orElseThrow(
-                ()-> new RuntimeException("User not found"));
+                () -> new NotFoundException("User with this email is not found"));
+
         return userConverter.toResponse(user);
     }
 
     @Override
     public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+
+        try {
+            userRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new ApiRequestException("Failed to delete user with ID: " + id, e);
+        }
+
     }
 
     @Override
-    public UserResponse updateUserDetails(Long id, UserRequest request) {
-        User user;
+    public UserResponse updateUserDetails(Long id, @Valid UserRequest request) {
 
-        try {
-            user = userRepository.findById(id).get();
-        }
-        catch (RuntimeException e) {
-            throw  new RuntimeException(String.format("User with %s not found",id));
+        User user = userRepository.findById(id).orElseThrow(
+                () -> new NotFoundException(String.format("User with id = %d not found", id)));
+
+        // Validate first name
+        if (request.getFirstName() != null && request.getFirstName().length() < 2) {
+            throw new ApiRequestException("First name should contain at least 2 characters");
         }
 
-        if (Objects.nonNull(request.getFirstName()) && !request.getFirstName().isBlank()){
-            user.setFirstName(request.getFirstName());
+        // Validate last name
+        if (request.getLastName() != null && request.getLastName().length() < 2) {
+            throw new ApiRequestException("Last name should contain at least 2 characters");
         }
-        if (Objects.nonNull(request.getLastName()) && !request.getLastName().isBlank()){
-            user.setLastName(request.getLastName());
+
+        // Validate password
+        if (request.getPassword() != null && request.getPassword().length() < 8) {
+            throw new ApiRequestException("Password must be at least 8 characters long");
         }
-        if (Objects.nonNull(request.getPassword()) && !request.getPassword().isBlank()){
-            user.setPassword(request.getPassword());
-        }
-        if (Objects.nonNull(request.getEmail()) && !request.getEmail().isBlank()){
-            user.setEmail(request.getEmail());
-        }
+
+        updateUserFields(user, request);
+
         return userConverter.toResponse(userRepository.save(user));
     }
 
     @Override
     public UserResponse updateUserPassword(Long id, String pass) {
+
         UserRequest userRequest = new UserRequest();
         userRequest.setPassword(pass);
-         return updateUserDetails(id,userRequest);
+
+        return updateUserDetails(id, userRequest);
     }
+
+    private void updateUserFields(User user, UserRequest request) {
+
+        if (Objects.nonNull(request.getFirstName()) && !request.getFirstName().isBlank()) {
+            user.setFirstName(request.getFirstName());
+        }
+        if (Objects.nonNull(request.getLastName()) && !request.getLastName().isBlank()) {
+            user.setLastName(request.getLastName());
+        }
+        if (Objects.nonNull(request.getPassword()) && !request.getPassword().isBlank()) {
+            user.setPassword(request.getPassword());
+        }
+        if (Objects.nonNull(request.getEmail()) && !request.getEmail().isBlank()) {
+            user.setEmail(request.getEmail());
+        }
+    }
+
 }

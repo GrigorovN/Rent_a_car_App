@@ -23,5 +23,5 @@ Example of registering a user:
         "firstName" : "Yanko",
         "lastName" : "Hasanov",
         "email" : "yanko@gmail.com",
-        "password" : "Kitaec"
+        "password" : "testing1234"
     }
